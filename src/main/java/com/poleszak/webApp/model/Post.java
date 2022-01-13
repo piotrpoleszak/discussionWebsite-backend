@@ -19,7 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Post
+{
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long postId;
@@ -39,7 +40,7 @@ public class Post {
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
     private Instant createdDate;
-    
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Subpost subpost;
