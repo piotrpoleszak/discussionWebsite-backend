@@ -1,6 +1,7 @@
 package com.poleszak.webApp.service;
 
 import com.poleszak.webApp.dto.RegisterRequest;
+import com.poleszak.webApp.model.NotificationEmail;
 import com.poleszak.webApp.model.User;
 import com.poleszak.webApp.model.VerificationToken;
 import com.poleszak.webApp.repository.UserRepository;
@@ -20,6 +21,7 @@ public class AuthService
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final MailService mailService;
 
     @Transactional
     public void signup(RegisterRequest registerRequest)
@@ -34,6 +36,10 @@ public class AuthService
         userRepository.save(user);
 
         String token = generateVerificationToken(user);
+        mailService.sendMail(new NotificationEmail("Please Active your Account",
+                user.getEmail(), "Thank you for sign up to our service." +
+                "Please click on the link below to activate your account: " +
+                "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
     private String  generateVerificationToken(User user)

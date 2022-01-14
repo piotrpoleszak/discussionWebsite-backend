@@ -27,20 +27,20 @@ class MailService
         MimeMessagePreparator messagePreparator = mimeMessage ->
         {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("piotrpoleszak00@gmail.com");
+            messageHelper.setFrom("poleszak@protonmail.com");
             messageHelper.setTo(notificationEmail.getRecipient());
             messageHelper.setSubject(notificationEmail.getSubject());
             messageHelper.setText(notificationEmail.getBody());
         };
-
         try
         {
             mailSender.send(messagePreparator);
-            log.info("Activation email sent!");
+            log.info("Activation email sent!!");
         } catch (MailException e)
         {
             log.error("Exception occurred when sending mail", e);
             throw new SpringDiscussionwebsiteException("Exception occurred when sending mail to " + notificationEmail.getRecipient(), e);
         }
     }
+
 }
