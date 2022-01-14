@@ -1,6 +1,7 @@
 package com.poleszak.webApp.service;
 
 import com.poleszak.webApp.dto.RegisterRequest;
+import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
 import com.poleszak.webApp.model.User;
 import com.poleszak.webApp.model.VerificationToken;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -52,5 +54,20 @@ public class AuthService
         verificationTokenRepository.save(verificationToken);
 
         return token;
+    }
+
+    public void verifyAccount(String token)
+    {
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        verificationToken.orElseThrow(() -> new SpringDiscussionwebsiteException("Invalid Token"));
+    }
+
+    private void fetchUserAndEnable(VerificationToken verificationToken)
+    {
+        String username =  verificationToken.getUser().getUsername();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new SpringDiscussionwebsiteException("User not found with name - " + username));
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }
