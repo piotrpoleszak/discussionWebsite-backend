@@ -19,7 +19,7 @@ public class AuthController
     {
         authService.signup(registerRequest);
 
-        return new ResponseEntity<>("User Registration Succesful", HttpStatus.OK);
+        return new ResponseEntity<>("User Registration Successfully", HttpStatus.OK);
     }
 
     @GetMapping("accountVerification/{token}")
@@ -27,6 +27,6 @@ public class AuthController
     {
         authService.verifyAccount(token);
 
-        return new ResponseEntity<>("Account Activated Successfullu", HttpStatus.OK);
+        return new ResponseEntity<>("Account Activated Successfully", HttpStatus.OK);
     }
 }
