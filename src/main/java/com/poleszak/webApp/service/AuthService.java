@@ -1,5 +1,6 @@
 package com.poleszak.webApp.service;
 
+import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
@@ -8,11 +9,15 @@ import com.poleszak.webApp.model.VerificationToken;
 import com.poleszak.webApp.repository.UserRepository;
 import com.poleszak.webApp.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +29,7 @@ public class AuthService
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public void signup(RegisterRequest registerRequest)
@@ -69,5 +75,11 @@ public class AuthService
                 .orElseThrow(() -> new SpringDiscussionwebsiteException("User not found with name - " + username));
         user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    public void login(LoginRequest loginRequest)
+    {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
     }
 }

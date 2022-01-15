@@ -1,5 +1,6 @@
 package com.poleszak.webApp.controller;
 
+import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,11 @@ public class AuthController
         authService.verifyAccount(token);
 
         return new ResponseEntity<>("Account Activated Successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody LoginRequest loginRequest)
+    {
+        authService.login(loginRequest);
     }
 }
