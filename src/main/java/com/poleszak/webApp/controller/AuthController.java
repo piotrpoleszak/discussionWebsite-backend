@@ -1,6 +1,5 @@
 package com.poleszak.webApp.controller;
 
-import com.poleszak.webApp.dto.AuthenticationResponse;
 import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.service.AuthService;
@@ -33,8 +32,8 @@ public class AuthController
     }
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest)
+    public void login(@RequestBody LoginRequest loginRequest)
     {
-        return authService.login(loginRequest);
+        authService.login(loginRequest);
     }
 }

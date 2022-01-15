@@ -1,6 +1,5 @@
 package com.poleszak.webApp.service;
 
-
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
 import lombok.AllArgsConstructor;
@@ -42,5 +41,4 @@ class MailService
             throw new SpringDiscussionwebsiteException("Exception occurred when sending mail to " + notificationEmail.getRecipient(), e);
         }
     }
-
 }
