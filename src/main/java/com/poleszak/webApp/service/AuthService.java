@@ -1,5 +1,7 @@
 package com.poleszak.webApp.service;
 
+import com.poleszak.webApp.dto.AuthenticationResponse;
+import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
@@ -7,7 +9,12 @@ import com.poleszak.webApp.model.User;
 import com.poleszak.webApp.model.VerificationToken;
 import com.poleszak.webApp.repository.UserRepository;
 import com.poleszak.webApp.repository.VerificationTokenRepository;
+import com.poleszak.webApp.security.JwtProvider;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +32,8 @@ public class AuthService
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
     private final MailService mailService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtProvider jwtProvider;
 
     public void signup(RegisterRequest registerRequest)
     {
@@ -70,5 +79,15 @@ public class AuthService
         User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringDiscussionwebsiteException("User not found with name: " + username));
         user.setEnabled(true);
         userRepository.save(user);
+    }
+
+    public AuthenticationResponse login(LoginRequest loginRequest)
+    {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+
+        return new AuthenticationResponse(token, loginRequest.getUsername());
     }
 }
