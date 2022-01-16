@@ -18,21 +18,23 @@ public class MailService
 {
     private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
-    
+
+    @Async
     void sendMail(NotificationEmail notificationEmail)
     {
         MimeMessagePreparator messagePreparator = mimeMessage ->
         {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("chat@email.com");
-            messageHelper.setTo(notificationEmail.getSubject());
-            messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
+            messageHelper.setFrom("testMail@email.com");
+            messageHelper.setTo(notificationEmail.getRecipient());
+            messageHelper.setSubject(notificationEmail.getSubject());
+            messageHelper.setText(notificationEmail.getBody());
         };
 
         try
         {
             mailSender.send(messagePreparator);
-            log.info("Activation email sen!");
+            log.info("Activation email sent!");
         } catch (MailException e) {
             throw new SpringDiscussionwebsiteException("Exception occured when sending mail to "
                     + notificationEmail.getRecipient());
