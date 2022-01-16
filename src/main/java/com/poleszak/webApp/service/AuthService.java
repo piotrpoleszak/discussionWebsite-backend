@@ -29,27 +29,7 @@ public class AuthService
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
-    private final MailService mailService;
     private final AuthenticationManager authenticationManager;
-
-    @Transactional
-    public void signup(RegisterRequest registerRequest)
-    {
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(Instant.now());
-        user.setEnabled(false);
-
-        userRepository.save(user);
-
-        String token = generateVerificationToken(user);
-        mailService.sendMail(new NotificationEmail("Please Active your Account",
-                user.getEmail(), "Thank you for sign up to our service." +
-                "Please click on the link below to activate your account: " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
-    }
 
     private String generateVerificationToken(User user)
     {

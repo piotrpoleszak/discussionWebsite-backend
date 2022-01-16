@@ -1,12 +1,9 @@
 package com.poleszak.webApp.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
-<<<<<<< HEAD
-=======
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
-
->>>>>>> origin/master
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,9 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-<<<<<<< HEAD
-=======
-    private final UserDetailsService userDetailsService;
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -28,7 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return super.authenticationManagerBean();
     }
 
->>>>>>> origin/master
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception
     {
