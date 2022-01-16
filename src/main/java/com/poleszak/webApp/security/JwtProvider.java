@@ -13,7 +13,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 @Service
-public class JwtPrivider
+public class JwtProvider
 {
     private KeyStore keyStore;
 
