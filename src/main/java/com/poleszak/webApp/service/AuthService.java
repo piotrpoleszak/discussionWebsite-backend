@@ -1,5 +1,6 @@
 package com.poleszak.webApp.service;
 
+import com.poleszak.webApp.dto.AuthenticationResponse;
 import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
@@ -80,11 +81,13 @@ public class AuthService
         userRepository.save(user);
     }
 
-    public void login(LoginRequest loginRequest)
+    public AuthenticationResponse login(LoginRequest loginRequest)
     {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
+
+        return new AuthenticationResponse(token, loginRequest.getUsername());
     }
 }

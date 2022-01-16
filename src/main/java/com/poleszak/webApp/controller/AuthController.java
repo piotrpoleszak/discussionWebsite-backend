@@ -1,10 +1,10 @@
 package com.poleszak.webApp.controller;
 
+import com.poleszak.webApp.dto.AuthenticationResponse;
 import com.poleszak.webApp.dto.LoginRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +35,8 @@ public class AuthController
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest)
+    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest)
     {
-        authService.login(loginRequest);
+        return authService.login(loginRequest);
     }
 }
