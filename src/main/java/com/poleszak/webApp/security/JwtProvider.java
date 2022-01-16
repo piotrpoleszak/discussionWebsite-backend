@@ -1,7 +1,7 @@
 package com.poleszak.webApp.security;
 
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
-import com.poleszak.webApp.model.User;
+import org.springframework.security.core.userdetails.User;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
