@@ -4,6 +4,7 @@ import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 class MailService
 {
-
     private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
 
@@ -26,11 +26,12 @@ class MailService
         MimeMessagePreparator messagePreparator = mimeMessage ->
         {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("poleszak@protonmail.com");
+            messageHelper.setFrom("springreddit@email.com");
             messageHelper.setTo(notificationEmail.getRecipient());
             messageHelper.setSubject(notificationEmail.getSubject());
             messageHelper.setText(notificationEmail.getBody());
         };
+
         try
         {
             mailSender.send(messagePreparator);
