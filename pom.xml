@@ -85,29 +85,25 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.10.5</version>
+			<version>0.11.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
 			<scope>runtime</scope>
-			<version>0.10.5</version>
+			<version>0.11.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
 			<scope>runtime</scope>
-			<version>0.10.5</version>
+			<version>0.11.2</version>
 		</dependency>
 
-		<!-- For Displaying time as Relative Time Ago ("Posted 1 Day ago"),
-         as this is a Kotlin library, we also need Kotlin runtime libraries-->
 		<dependency>
 			<groupId>com.github.marlonlom</groupId>
 			<artifactId>timeago</artifactId>
-			<version>4.0.1</version>
+			<version>4.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
