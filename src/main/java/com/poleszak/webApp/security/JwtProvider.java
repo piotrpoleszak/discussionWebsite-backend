@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 
+import static io.jsonwebtoken.Jwts.parser;
+
 @Service
 public class JwtProvider
 {
@@ -25,8 +27,7 @@ public class JwtProvider
             keyStore = KeyStore.getInstance("JKS");
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
             keyStore.load(resourceAsStream, "secret".toCharArray());
-        }
-        catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e)
+        } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e)
         {
             throw new SpringDiscussionwebsiteException("Exception occurred while loading keystore");
         }
@@ -47,10 +48,27 @@ public class JwtProvider
         try
         {
             return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
-        }
-        catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e)
+        } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e)
         {
             throw new SpringDiscussionwebsiteException("Exception occured while retrieving public key from kestore.");
+        }
+    }
+
+    public boolean validateToken(String jwt)
+    {
+        parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        return true;
+    }
+
+    private PublicKey getPublickey()
+    {
+        try
+        {
+            return keyStore.getCertificate("springblog").getPublicKey();
+        } catch (KeyStoreException e)
+        {
+            throw new SpringDiscussionwebsiteException("Exception occured while " +
+                    "retrieving public key from keystore", e);
         }
     }
 }
