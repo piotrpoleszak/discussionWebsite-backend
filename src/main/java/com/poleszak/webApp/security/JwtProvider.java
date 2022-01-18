@@ -1,6 +1,7 @@
 package com.poleszak.webApp.security;
 
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.User;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
@@ -70,5 +71,15 @@ public class JwtProvider
             throw new SpringDiscussionwebsiteException("Exception occured while " +
                     "retrieving public key from keystore", e);
         }
+    }
+
+    public String getUsernameFromJwt(String token)
+    {
+        Claims claims = parser()
+                .setSigningKey(getPublickey())
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
     }
 }
