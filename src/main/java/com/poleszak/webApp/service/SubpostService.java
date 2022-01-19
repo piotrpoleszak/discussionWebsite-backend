@@ -14,12 +14,18 @@ public class SubpostService
 {
     private final SubpostRepository subpostRepository;
 
-    public void save(SubpostDto subpostDto)
+    public SubpostDto save(SubpostDto subpostDto)
     {
         Subpost save = subpostRepository.save(mapSubpostDto(subpostDto));
+        subpostDto.setId(save.getId());
+
+        return subpostDtcd o;
     }
 
     private Subpost mapSubpostDto(SubpostDto subpostDto)
     {
+        return Subpost.builder().name(subpostDto.getName())
+                .description(subpostDto.getDescription())
+                .build();
     }
 }
