@@ -8,6 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -25,11 +29,12 @@ public class SubpostService
     }
 
     @Transactional(readOnly = true)
-    public void getAll()
+    public List<SubpostDto> getAll()
     {
-        subpostRepository.findAll()
+        return subpostRepository.findAll()
                 .stream()
-                .map(this::mapToDto);
+                .map(this::mapToDto)
+                .collect(toList());
     }
 
     private SubpostDto mapToDto(Subpost subpost)
