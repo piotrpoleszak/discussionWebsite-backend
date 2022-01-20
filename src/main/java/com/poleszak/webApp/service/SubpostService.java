@@ -19,7 +19,7 @@ public class SubpostService
         Subpost save = subpostRepository.save(mapSubpostDto(subpostDto));
         subpostDto.setId(save.getId());
 
-        return subpostDtcd o;
+        return subpostDto;
     }
 
     private Subpost mapSubpostDto(SubpostDto subpostDto)
