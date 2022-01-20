@@ -1,6 +1,8 @@
 package com.poleszak.webApp.service;
 
 import com.poleszak.webApp.dto.SubpostDto;
+import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
+import com.poleszak.webApp.mapper.SubpostMapper;
 import com.poleszak.webApp.model.Subpost;
 import com.poleszak.webApp.repository.SubpostRepository;
 import lombok.AllArgsConstructor;
@@ -17,14 +19,15 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class SubpostService
 {
+
     private final SubpostRepository subpostRepository;
+    private final SubpostMapper subpostMapper;
 
     @Transactional
     public SubpostDto save(SubpostDto subpostDto)
     {
-        Subpost save = subpostRepository.save(mapSubpostDto(subpostDto));
+        Subpost save = subpostRepository.save(subpostMapper.mapDtoToSubpost(subpostDto));
         subpostDto.setId(save.getId());
-
         return subpostDto;
     }
 
@@ -33,22 +36,14 @@ public class SubpostService
     {
         return subpostRepository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(subpostMapper::mapSubpostToDto)
                 .collect(toList());
     }
 
-    private SubpostDto mapToDto(Subpost subpost)
+    public SubpostDto getSubpost(Long id)
     {
-        return SubpostDto.builder().name(subpost.getName())
-                .id(subpost.getId())
-                .numberOfPosts(subpost.getPosts().size())
-                .build();
-    }
-
-    private Subpost mapSubpostDto(SubpostDto subpostDto)
-    {
-        return Subpost.builder().name(subpostDto.getName())
-                .description(subpostDto.getDescription())
-                .build();
+        Subpost subpost = subpostRepository.findById(id)
+                .orElseThrow(() -> new SpringDiscussionwebsiteException("No subreddit found with ID - " + id));
+        return subpostMapper.mapSubpostToDto(subpost);
     }
 }
