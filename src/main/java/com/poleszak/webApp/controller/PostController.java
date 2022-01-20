@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.status;
+
 @RestController
 @RequestMapping("/api/posts/")
 @AllArgsConstructor
 public class PostController
 {
+
     private final PostService postService;
 
     @PostMapping
@@ -24,21 +27,27 @@ public class PostController
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<PostResponse>> getAllPosts()
+    {
+        return status(HttpStatus.OK).body(postService.getAllPosts());
+    }
+
     @GetMapping("/{id}")
-    public PostResponse getPost(@PathVariable Long id)
+    public ResponseEntity<PostResponse> getPost(@PathVariable Long id)
     {
-        return postService.getPost(id);
+        return status(HttpStatus.OK).body(postService.getPost(id));
     }
 
-    @GetMapping("/")
-    public List<PostResponse> getAllPosts()
+    @GetMapping("by-subreddit/{id}")
+    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long id)
     {
-        return postService.getAllPosts();
+        return status(HttpStatus.OK).body(postService.getPostsBySubpost(id));
     }
 
-    @GetMapping("/by-subpost/{id}")
-    public List<PostResponse> getPostsBuSubpost(Long id)
+    @GetMapping("by-user/{name}")
+    public ResponseEntity<List<PostResponse>> getPostsByUsername(String username)
     {
-        return postService.getPostsBySubpost(id);
+        return status(HttpStatus.OK).body(postService.getPostsByUsername(username));
     }
 }

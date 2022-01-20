@@ -6,7 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -60,6 +58,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers("/api/auth/**")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/subpost")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/posts/")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/api/posts/**")
+                        .permitAll()
+                        .antMatchers("/v2/api-docs",
+                                "/configuration/ui",
+                                "/swagger-resources/**",
+                                "/configuration/security",
+                                "/swagger-ui.html",
+                                "/webjars/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())

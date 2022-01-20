@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SubpostRepository extends JpaRepository<Subpost, Long>
 {
-
     Optional<Subpost> findByName(String subredditName);
 }

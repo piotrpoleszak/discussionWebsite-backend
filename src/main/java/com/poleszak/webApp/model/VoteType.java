@@ -6,7 +6,6 @@ public enum VoteType
 
     private int direction;
 
-    VoteType(int direction) {
-    }
+    VoteType(int direction) {}
 
 }

@@ -96,11 +96,11 @@ public class AuthService
     @Transactional(readOnly = true)
     public User getCurrentUser()
     {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
-                getContext().getAuthentication().getPrincipal();
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
 
-        return userRepository.findByUsername(principal.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
+        return userRepository.findByUsername(loggedInUser.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + loggedInUser.getName()));
     }
 
     public boolean isLoggedIn()

@@ -7,11 +7,13 @@ import com.poleszak.webApp.exceptions.SubpostNotFoundException;
 import com.poleszak.webApp.mapper.PostMapper;
 import com.poleszak.webApp.model.Post;
 import com.poleszak.webApp.model.Subpost;
+import com.poleszak.webApp.model.User;
 import com.poleszak.webApp.repository.PostRepository;
 import com.poleszak.webApp.repository.SubpostRepository;
 import com.poleszak.webApp.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,5 +64,16 @@ public class PostService
                 .orElseThrow(() -> new SubpostNotFoundException(subpostId.toString()));
         List<Post> posts = postRepository.findAllBySubpost(subpost);
         return posts.stream().map(postMapper::mapToDto).collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponse> getPostsByUsername(String username)
+    {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return postRepository.findByUser(user)
+                .stream()
+                .map(postMapper::mapToDto)
+                .collect(toList());
     }
 }
