@@ -33,11 +33,11 @@ public class SubpostController
                 .body(subpostService.getAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SubpostDto> getSubpost(@PathVariable Long id)
-    {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(subpostService.getSubpost(id));
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<SubpostDto> getSubpost(@PathVariable Long id)
+//    {
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(subpostService.getSubpost(id));
+//    }
 }
