@@ -24,6 +24,6 @@ public class CommentService
         Post post = postRepository.findById(commentsDto.getPostId())
                         .orElseThrow(() -> new PostNotFoundException(commentsDto.getPostId().toString()));
 
-        Comment map = commentMapper.map(commentsDto, post, authService.getCurrentUser());
+        Comment comment = commentMapper.map(commentsDto, post, authService.getCurrentUser());
     }
 }
