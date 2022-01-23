@@ -11,10 +11,10 @@ import com.poleszak.webApp.repository.CommentRepository;
 import com.poleszak.webApp.repository.PostRepository;
 import com.poleszak.webApp.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -55,5 +55,16 @@ public class CommentService
         return commentRepository.findByPost(post)
                 .stream()
                 .map(commentMapper::mapToDto).collect(toList());
+    }
+
+    public List<CommentsDto> getAllCommentsForUser(String userName)
+    {
+        User user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new UsernameNotFoundException(userName));
+
+        return commentRepository.findAllByUser(user)
+                .stream()
+                .map(commentMapper::mapToDto)
+                .collect(toList());
     }
 }
