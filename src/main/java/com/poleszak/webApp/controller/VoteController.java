@@ -2,7 +2,7 @@ package com.poleszak.webApp.controller;
 
 import com.poleszak.webApp.dto.VoteDto;
 import com.poleszak.webApp.model.Vote;
-import com.poleszak.webApp.service.VoteSerive;
+import com.poleszak.webApp.service.VoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class VoteController
 {
-    private final VoteSerive voteSerive;
+    private final VoteService voteService;
 
     @PostMapping
     public ResponseEntity<Vote> vote(@RequestBody VoteDto voteDto)
     {
-        voteSerive.vote(voteDto);
+        voteService.vote(voteDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
