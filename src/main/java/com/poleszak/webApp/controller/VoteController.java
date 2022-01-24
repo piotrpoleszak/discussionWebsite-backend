@@ -4,6 +4,7 @@ import com.poleszak.webApp.dto.VoteDto;
 import com.poleszak.webApp.model.Vote;
 import com.poleszak.webApp.service.VoteSerive;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,4 +20,9 @@ public class VoteController
 
     @PostMapping
     public ResponseEntity<Vote> vote(@RequestBody VoteDto voteDto)
+    {
+        voteSerive.vote(voteDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
