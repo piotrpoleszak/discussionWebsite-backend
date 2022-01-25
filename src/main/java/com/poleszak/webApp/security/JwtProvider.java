@@ -15,7 +15,6 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class JwtProvider
 {
-
     private final JwtEncoder jwtEncoder;
 
     @Value("${jwt.expiration.time}")
