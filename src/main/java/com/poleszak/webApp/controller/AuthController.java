@@ -2,12 +2,15 @@ package com.poleszak.webApp.controller;
 
 import com.poleszak.webApp.dto.AuthenticationResponse;
 import com.poleszak.webApp.dto.LoginRequest;
+import com.poleszak.webApp.dto.RefreshTokenRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -39,4 +42,11 @@ public class AuthController
     {
         return authService.login(loginRequest);
     }
+
+    @PostMapping("refresh/token")
+    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest)
+    {
+        return authService.refreshToken(refreshTokenRequest);
+    }
+
 }

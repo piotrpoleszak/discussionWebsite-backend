@@ -2,6 +2,7 @@ package com.poleszak.webApp.service;
 
 import com.poleszak.webApp.dto.AuthenticationResponse;
 import com.poleszak.webApp.dto.LoginRequest;
+import com.poleszak.webApp.dto.RefreshTokenRequest;
 import com.poleszak.webApp.dto.RegisterRequest;
 import com.poleszak.webApp.exceptions.SpringDiscussionwebsiteException;
 import com.poleszak.webApp.model.NotificationEmail;
@@ -84,7 +85,8 @@ public class AuthService
         userRepository.save(user);
     }
 
-    public AuthenticationResponse login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest)
+    {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -111,5 +113,17 @@ public class AuthService
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest)
+    {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
     }
 }
