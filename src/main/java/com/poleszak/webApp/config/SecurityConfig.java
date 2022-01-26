@@ -31,11 +31,11 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
+
     private final UserDetailsService userDetailsService;
 
     @Value("${jwt.public.key}")
