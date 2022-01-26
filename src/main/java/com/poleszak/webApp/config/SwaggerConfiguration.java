@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfiguration
 {
     @Bean
-    public Docket discussionWebsiteCloneApi()
+    public Docket discussionWebsiteAPI()
     {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
@@ -29,10 +29,10 @@ public class SwaggerConfiguration
     private ApiInfo getApiInfo()
     {
         return new ApiInfoBuilder()
-                .title("DiscussionWebsite Clone API")
+                .title("DiscussionWebsite API")
                 .version("1.0")
-                .description("API for DiscussionWebsite")
-                .contact(new Contact("Author", "http://website.com", "abc@email.com"))
+                .description("API for DiscussionWebsite Application")
+                .contact(new Contact("Abc Cba", "http://abc.com", "abc@email.com"))
                 .license("Apache License Version 2.0")
                 .build();
     }
